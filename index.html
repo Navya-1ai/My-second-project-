@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Guessing Game</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background-color: #f4f4f4;
+      padding-top: 50px;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      font-size: 16px;
+    }
+    input {
+      padding: 8px;
+      font-size: 16px;
+      width: 80px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Number Guessing Game</h1>
+
+  <p>Select a level:</p>
+  <button onclick="startGame(1)">Level 1</button>
+  <button onclick="startGame(2)">Level 2</button>
+  <button onclick="startGame(3)">Level 3</button>
+
+  <h2 id="message"></h2>
+
+  <div id="gameArea" style="display:none;">
+    <p id="info"></p>
+    <input type="number" id="guess">
+    <br><br>
+    <button onclick="checkGuess()">Guess</button>
+  </div>
+
+  <script>
+    let secretNumber;
+    let attemptsLeft;
+    let maxNumber;
+
+    function startGame(level) {
+      if (level === 1) {
+        maxNumber = 10;
+        attemptsLeft = 5;
+      } else if (level === 2) {
+        maxNumber = 50;
+        attemptsLeft = 7;
+      } else {
+        maxNumber = 100;
+        attemptsLeft = 10;
+      }
+
+      secretNumber = Math.floor(Math.random() * maxNumber) + 1;
+
+      document.getElementById("message").innerText =
+        "Game Started! Guess a number between 1 and " + maxNumber;
+
+      document.getElementById("info").innerText =
+        "Attempts left: " + attemptsLeft;
+
+      document.getElementById("gameArea").style.display = "block";
+    }
+
+    function checkGuess() {
+      let userGuess = Number(document.getElementById("guess").value);
+
+      if (!userGuess) {
+        alert("Enter a number!");
+        return;
+      }
+
+      attemptsLeft--;
+
+      if (userGuess === secretNumber) {
+        document.getElementById("message").innerText =
+          "Correct! You won!";
+        document.getElementById("gameArea").style.display = "none";
+      } 
+      else if (attemptsLeft === 0) {
+        document.getElementById("message").innerText =
+          "Game Over! The number was " + secretNumber;
+        document.getElementById("gameArea").style.display = "none";
+      } 
+      else if (userGuess < secretNumber) {
+        document.getElementById("message").innerText = "Too low!";
+      } 
+      else {
+        document.getElementById("message").innerText = "Too high!";
+      }
+
+      document.getElementById("info").innerText =
+        "Attempts left: " + attemptsLeft;
+    }
+  </script>
+
+</body>
+</html>
